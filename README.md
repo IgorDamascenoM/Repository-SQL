@@ -170,11 +170,95 @@ add CONSTRAINT pk_specialoffer primary key(SpecialOfferID,ProductID)
 alter table [Sales.SalesOrderDetail]
 add CONSTRAINT pk_orderdetail primary key(SalesOrderID,SalesOrderDetailID)
 ```
+# Desafios
+Desafio 1
 ```SQL
+--Escreva uma query que retorna a quantidade de linhas na tabela Sales.SalesOrderDetail pelo 
+--campo SalesOrderID, desde que tenham pelo menos três linhas de detalhes.
+select
+	count (*) as qtdlinhas
+from (
+
+	select 
+		count (SalesOrderDetailID) as qtd, 
+		SalesOrderID
+	from [Sales.SalesOrderDetail]
+	group by SalesOrderID
+
+) as a
+
+where qtd >= 3
+```
+Desafio 2
+```SQL
+--Escreva uma query que ligue as tabelas Sales.SalesOrderDetail, Sales.SpecialOfferProduct e 
+--Production.Product e retorne os 3 produtos (Name) mais vendidos (pela soma de OrderQty), 
+--agrupados pelo número de dias para manufatura (DaysToManufacture).
+select * from 
+	(
+	select c.DaysToManufacture, c.Name, SUM (a.OrderQty) as TotalVendas,
+	
+	ROW_NUMBER() over(partition by c.DaysToManufacture order by SUM (a.OrderQty)desc) as posicao
+	from [Sales.SalesOrderDetail] as a
+	inner join [Sales.SpecialOfferProduct] as b
+	on a.ProductID = b.ProductID
+	and a.SpecialOfferID = b.SpecialOfferID
+	inner join [Production.Product] as c
+	on b.ProductID = c.ProductID
+	Group by c.Name, c.DaysToManufacture
+	) as tableposition
+where posicao <= 3
 
 ```
+Desafio 3
+```SQL
+--Escreva uma query ligando as 
+--tabelas Person.Person, Sales.Customer e Sales.SalesOrderHeader de forma a obter 
+--uma lista de nomes de clientes e uma contagem de pedidos efetuados.
 
+select c.BusinessEntityID, c.FirstName, c.LastName, COUNT (SalesOrderID) as compras from [Sales.SalesOrderHeader] as a
 
+inner join [Sales.Customer] as b
+
+on a.CustomerID = b.CustomerID
+
+inner join [Person.Person] as c
+
+on b.PersonID = c.BusinessEntityID
+
+group by c.BusinessEntityID, c.FirstName, c.LastName
+```
+Desafio 4
+```SQL
+--Escreva uma query usando as tabelas Sales.SalesOrderHeader, Sales.SalesOrderDetail e Production.Product,
+--de forma a obter a soma total de produtos (OrderQty) por ProductID e OrderDate.
+
+select SUM (OrderQty) as SomaTotal, c.Name, c.ProductID, a.OrderDate from [Sales.SalesOrderHeader] as a
+inner join [Sales.SalesOrderDetail] as b
+on a.SalesOrderID = b.SalesOrderID
+inner join [Production.Product] as c
+on b.ProductID = c.ProductID
+
+group by c.ProductID, a.OrderDate, c.Name
+
+order by c.Name
+```
+Desafio 5
+```SQL
+--Escreva uma query mostrando os campos SalesOrderID, OrderDate e TotalDue da tabela 
+--Sales.SalesOrderHeader. Obtenha apenas as linhas onde a ordem tenha sido feita 
+--durante o mês de setembro/2011 e o total devido esteja acima de 1.000. Ordene pelo total devido decrescente.
+
+select SalesOrderID,  OrderDate, TotalDue
+from [Sales.SalesOrderHeader]
+ 
+where 
+	Status = 1
+and OrderDate between '2011-09-01' and '2011-09-30'
+and TotalDue > 1000
+order by TotalDue desc, OrderDate
+
+```
 
 
 
