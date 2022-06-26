@@ -1,4 +1,4 @@
-# Repository2RP
+# Repository SQL
 ![GitHub](https://img.shields.io/github/license/IgorDamascenoM/Repository2RP?style=social)
 
 # Sobre o Projeto
