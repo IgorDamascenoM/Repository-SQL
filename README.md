@@ -260,7 +260,7 @@ order by TotalDue desc, OrderDate
 
 ```
 # Arquivos usados para realizar a atividade
-[2RPNET.zip](https://github.com/IgorDamascenoM/Repository-SQL/files/SQL Knowledge.zip)
+[SQL Knowledge.zip](https://github.com/IgorDamascenoM/Repository-SQL/SQL Knowledge.zip)
 
 # Autor
 Igor Damasceno Mota
