@@ -260,7 +260,7 @@ order by TotalDue desc, OrderDate
 
 ```
 # Arquivos usados para realizar a atividade
-[SQL Knowledge.zip](https://github.com/IgorDamascenoM/Repository-SQL/SQL Knowledge.zip)
+[SQL_Knowledge.zip](https://github.com/IgorDamascenoM/Repository-SQL/SQL_Knowledge.zip)
 
 # Autor
 Igor Damasceno Mota
